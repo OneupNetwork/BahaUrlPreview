@@ -1,11 +1,50 @@
 package com.baha.url.preview.sample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.baha.url.preview.BahaUrlPreview
+import com.baha.url.preview.IUrlPreviewCallback
+import com.baha.url.preview.UrlInfoItem
+import com.baha.url.preview.sample.databinding.ActivityMainBinding
+import com.bumptech.glide.Glide
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var urlPreview: BahaUrlPreview
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.preview.setOnClickListener {
+            if (binding.url.text.isNotEmpty()) {
+                binding.previewGroup.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+                urlPreview =
+                    BahaUrlPreview(binding.url.text.toString(), object : IUrlPreviewCallback {
+                        override fun onComplete(urlInfo: UrlInfoItem) {
+                            binding.previewGroup.visibility = View.VISIBLE
+                            binding.progressBar.visibility = View.GONE
+                            binding.title.text = urlInfo.title
+                            binding.description.text = urlInfo.description
+                            Glide.with(this@MainActivity)
+                                .load(urlInfo.image)
+                                .into(binding.image)
+                        }
+                    })
+
+                urlPreview.fetchUrlPreview()
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::urlPreview.isInitialized) {
+            urlPreview.cleanUp()
+        }
     }
 }

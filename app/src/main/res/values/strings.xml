@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BahaUrlPreview</string>
+    <string name="preview">preview</string>
 </resources>
