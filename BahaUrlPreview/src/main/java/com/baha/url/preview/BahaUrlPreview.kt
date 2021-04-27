@@ -6,7 +6,10 @@ class BahaUrlPreview(val url: String, var callback: IUrlPreviewCallback?) {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
     fun fetchUrlPreview(timeOut: Int = 30000) {
-        scope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            callback?.onFailed(throwable)
+        }
+        scope.launch(exceptionHandler) {
             fetch(timeOut)
         }
     }

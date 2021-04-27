@@ -2,6 +2,7 @@ package com.baha.url.preview.sample
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.baha.url.preview.BahaUrlPreview
 import com.baha.url.preview.IUrlPreviewCallback
@@ -32,6 +33,15 @@ class MainActivity : AppCompatActivity() {
                             Glide.with(this@MainActivity)
                                 .load(urlInfo.image)
                                 .into(binding.image)
+                        }
+
+                        override fun onFailed(throwable: Throwable) {
+                            throwable.printStackTrace()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "url preview failed!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     })
 
