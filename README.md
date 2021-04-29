@@ -1,5 +1,5 @@
 # BahaUrlPreview
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.bumptech.glide/glide/badge.svg)](https://search.maven.org/artifact/tw.com.oneup.www/Baha-UrlPreview)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/tw.com.oneup.www/Baha-UrlPreview/badge.svg)](https://search.maven.org/artifact/tw.com.oneup.www/Baha-UrlPreview)
 
 The library help android developer easier to get url preview info.
 
