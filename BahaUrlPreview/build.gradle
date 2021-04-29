@@ -2,6 +2,9 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'maven-publish'
+    id 'signing'
+    id 'org.jetbrains.dokka'
 }
 
 android {
@@ -11,8 +14,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -34,15 +35,116 @@ android {
 }
 
 dependencies {
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
     implementation 'org.jsoup:jsoup:1.13.1'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
 }
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+
+tasks.withType(dokkaHtmlPartial.getClass()).configureEach {
+    pluginsMapConfiguration.set(
+            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
+    )
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier.set('javadoc')
+    from dokkaJavadoc.outputDirectory
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives javadocJar
+}
+
+group = 'tw.com.oneup.www'
+version = '1.0.0'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId group
+                artifactId 'Baha-UrlPreview'
+                version '1.0.0'
+
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+                }
+
+                artifact androidSourcesJar
+                artifact javadocJar
+
+                pom {
+                    name = 'Baha-UrlPreview'
+                    description = 'Help android developer easier to get url preview info'
+                    url = 'https://github.com/OneupNetwork/BahaUrlPreview'
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://github.com/OneupNetwork/BahaUrlPreview/blob/main/LICENSE'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'Oneup'
+                            email = 'solinari@gamer.com.tw'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:github.com/OneupNetwork/BahaUrlPreview.git'
+                        developerConnection = 'scm:git:ssh://github.com/OneupNetwork/BahaUrlPreview'
+                        url = 'https://github.com/OneupNetwork/BahaUrlPreview'
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "sonatype"
+
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+                def name = findProperty('repositoryUsername') ?: ''
+                def pw = findProperty('repositoryPassword') ?: ''
+                credentials {
+                    username name
+                    password pw
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications
+    }
+}
+nexusStaging {
+    packageGroup = 'tw.com.oneup.www'
+    def name = findProperty('nexusUsername') ?: ''
+    def pw = findProperty('nexusPassword') ?: ''
+    username = name
+    password = pw
+}
+
