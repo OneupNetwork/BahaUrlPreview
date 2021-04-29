@@ -33,7 +33,7 @@ dependencies {
 
 ### Functions
 ```Kotlin
-val urlPreview = BahaUrlPreview(binding.url.text.toString(), object : IUrlPreviewCallback {
+val urlPreview = BahaUrlPreview(urlString, object : IUrlPreviewCallback {
                 override fun onComplete(urlInfo: UrlInfoItem) {
                     //urlInfo.title -> is url preivew title
                     //urlInfo.description -> is url preview 
