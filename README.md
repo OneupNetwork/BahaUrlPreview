@@ -63,6 +63,8 @@ Android 5.+ (API 21)
 OneupNetwork(SolinariWu) 
 
 ### License
+MIT License
+
 Copyright (c) 2021 OneupNetwork
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
