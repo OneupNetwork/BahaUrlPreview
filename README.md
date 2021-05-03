@@ -5,7 +5,7 @@ The library help android developer easier to get url preview info.
 
 100% Kotlin , use Kotlin-coroutines to fetch html code.
 
-Inspire by LeonardoCardoso/SwiftLinkPreview,Android-Link-Preview!
+Inspire by [LeonardoCardoso-SwiftLinkPreview](https://github.com/LeonardoCardoso/SwiftLinkPreview),[Android-Link-Preview](https://github.com/LeonardoCardoso/Android-Link-Preview)!
 
 # Demo
 
