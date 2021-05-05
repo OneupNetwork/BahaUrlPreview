@@ -59,7 +59,7 @@ private val META_ITEMPROP_IMAGE = arrayOf("image", "\"image\"", "'image'")
 
 private const val CONTENT = "content"
 
-suspend fun get(url: String, timeOut: Int = 30000): Document =
+suspend fun getDocument(url: String, timeOut: Int = 30000): Document =
     withContext(Dispatchers.IO) {
         return@withContext Jsoup.connect(url)
             .timeout(timeOut)

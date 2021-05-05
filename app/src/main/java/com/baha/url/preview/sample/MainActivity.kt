@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                                 "url preview failed!",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            binding.progressBar.visibility = View.GONE
                         }
                     })
 
