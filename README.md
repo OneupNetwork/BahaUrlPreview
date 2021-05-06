@@ -32,6 +32,7 @@ dependencies {
 ```
 
 ### Functions
+
 ```Kotlin
 val urlPreview = BahaUrlPreview(urlString, object : IUrlPreviewCallback {
                 override fun onComplete(urlInfo: UrlInfoItem) {
@@ -65,7 +66,7 @@ Android 5.+ (API 21)
 **Recent Breaking Change Info**
 
 - **v1.0.1**
- - add support to url that ends with image type (eg., .jpg
+  1.add support to url that ends with image type (eg., .jpg
 
 ### Developed By
 OneupNetwork(SolinariWu) 
