@@ -27,7 +27,7 @@ buildscript {
 //project build.gradle
 dependencies {
     ...
-    implementation 'tw.com.oneup.www:Baha-UrlPreview:1.0.0'
+    implementation 'tw.com.oneup.www:Baha-UrlPreview:1.0.1'
 }
 ```
 
@@ -58,6 +58,14 @@ override fun onDestroy() {
 
 ### Requirements
 Android 5.+ (API 21)
+
+### Latest version
+- v1.0.1 (May 6 , 2021)
+
+**Recent Breaking Change Info**
+
+- **v1.0.1**
+ - add support to url that ends with image type (eg., .jpg
 
 ### Developed By
 OneupNetwork(SolinariWu) 
