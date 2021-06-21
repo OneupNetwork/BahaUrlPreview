@@ -65,7 +65,7 @@ override fun onDestroy() {
 
 **Recent Breaking Change Info**
 
-    - **v1.0.1**
+    - v1.0.1
       1.add support to url that ends with image type (eg., .jpg
 
 ### Developed By
